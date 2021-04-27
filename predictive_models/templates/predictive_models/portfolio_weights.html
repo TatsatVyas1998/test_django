@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+{% extends "base.html" %}
+{% block title %}
+  <title>This page shows all portfolios</title>
+{% endblock title %}
+
+{% block head %}
+
+{% endblock head %}
+
+
+{%block body %}
+<body >
+
+  </br>
+<div topmargin = '100' class="container"  >
+
+<table class="table table-hover table-bordered table table-dark table-sm"">
+  <thead>
+    <tr>
+      <th scope="col">Stocks</th>
+      <th scope="col">Asset allocation %</th>
+    </tr>
+  </thead>
+
+
+      <tbody>
+        {% for obj in included_stocks %}
+            <tr class="table-active">
+              <td>{{obj.stock }}</td>
+              <td>{{obj.weights }}</td>
+            </tr>
+
+        {% endfor %}
+      </tbody>
+      </table>
+
+</div>
+</body>
+<style>
+  table{
+    marging:100px;
+  }
+
+</style>
+{% endblock body %}

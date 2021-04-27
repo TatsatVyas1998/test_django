@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}
+  <title>This page shows all portfolios</title>
+{% endblock title %}
+
+{% block head %}
+
+{% endblock head %}
+
+
+{%block body %}
+<<body>
+  <table class="table table-hover table-bordered table table-dark table-sm"">
+    <thead>
+      <tr>
+        <th scope="col">Stock</th>
+        <th scope="col">Asset Assingment</th>
+        <th scope="col">Total Return </th>
+        <th scope="col"> Invest </th>
+      </tr>
+    </thead>
+
+
+        <tbody>
+          {% for obj in created_portfolio %}
+              <tr class="table-danger">
+                <td><a href="{% url 'included_stocks' obj.id %}"><button type="button" class="btn btn-outline-success">Included Stocks</button></td>
+                <td><a href="{% url 'portfolio_weights' obj.id %}"><button type="button" class="btn btn-outline-success">Asset allocation</button></td>
+                <td>0</td>
+                <td><form action = "{% url 'invest' %}" method = "POST">
+                    {%csrf_token%}
+                    <input id = "search"  type="text"  placeholder="$" aria-label="Search" name = "searched"
+                      aria-describedby="search-addon" />
+                    <button type="submit" class="btn btn-outline-primary">Invest</button>
+
+
+
+                </form></td>
+
+              </tr>
+
+          {% endfor %}
+        </tbody>
+        </table>
+</body>
+{% endblock body %}

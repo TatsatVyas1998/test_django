@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}
+  <title>This is the portfolio page</title>
+{% endblock title %}
+
+
+<html>
+{% block head %}
+
+<div class="container">
+      </br>
+
+      {%for message in messages %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          {{message}}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+      {% endfor %}
+
+      <form method = "POST">
+        {% csrf_token %}
+      <select class="form-select" name = "stock" aria-label="Default select example">
+        <option selected>Select Stck to Purchase</option>
+        <option value='AAPL'>APPL</option>
+        <option value='TSLA'>TSLA</option>
+        <option value='MSFT'>MSFT</option>
+        <option value='BABA'>BABA</option>
+        <option value='PYPL'>PYPL</option>
+        <div class="input-group flex-nowrap">
+        <span class="input-group-text" id="addon-wrapping">$</span>
+        </br>
+        <input type="text" class="form-control"  name = "your_equity" placeholder="Amount" >
+        </br>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </select>
+      </form>
+      </br>
+      </br>
+      <table class="table table-hover table-bordered table table-dark table-sm"">
+        <thead>
+          <tr>
+            <th scope="col">Stock</th>
+            <th scope="col">Shares</th>
+            <th scope="col">Your Equity</th>
+            <th scope="col">Total Return </th>
+            <th scope="col"> Sell </th>
+          </tr>
+        </thead>
+
+
+            <tbody>
+              {% for obj in portfolio_value %}
+                {% if obj.total_return < 0 %}
+                  <tr class="table-danger">
+                    <td>{{obj.stock}}</td>
+                    <td>{{obj.shares}}</td>
+                    <td>{{obj.your_equity}}</td>
+                    <td>{{obj.total_return }}</td>
+                    <th><a href="{% url 'sell_asst' obj.id %}"> <button type="button" class="btn btn-outline-success">$</button> </th>
+                  </tr>
+                {% else %}
+                  <tr>
+                    <td>{{obj.stock}}</td>
+                    <td>{{obj.shares}}</td>
+                    <td>{{obj.your_equity}}</td>
+                    <td>{{obj.total_return }}</td>
+                    <th><a href="{% url 'sell_asst' obj.id %}"><button type="button" class="btn btn-outline-success">$</button> </th>
+                  </tr>
+                {% endif %}
+              {% endfor %}
+            </tbody>
+            </table>
+
+
+</div>
+{% endblock head %}
+</html>
