@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}
+  <title>Predictive Models</title>
+{% endblock title %}
+
+{% block head %}
+
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<div class="container">
+<form action = "{% url 'predictive_models' %}" method = "POST">
+  </br>
+    {%csrf_token%}
+    <input id = "search"  type="search" class="form-control rounded" placeholder="Search stocks" aria-label="Search" name = "searched"
+      aria-describedby="search-addon" />
+    <button type="submit" class="btn btn-outline-primary">Add</button>
+    <div id="box">
+
+
+
+</form>
+
+<table class="table table-hover table-bordered table table-dark table-sm"">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Stock</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for obj in selected_stocks %}
+        <tr class="table-info">
+          <td>{{obj.stock_name }}</td>
+          <td>{{obj.stock_symbol}}</td>
+        </tr>
+    {% endfor %}
+  </tbody>
+  </table>
+  </div>
+  <a href="{% url 'create_portfolio' %}"> <button type="button" class="btn btn-outline-success">Create Protfolio</button> 
+
+{% endblock head %}
+
+
+{%block scripts %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+
+  $( function() {
+
+  $( "#search" ).autocomplete({
+  source: "{%url 'autosuggest' %}"
+});
+
+} );
+
+
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $('#id_language').select2({
+            ajax: {
+                url: '{% url 'predictive_models' %}',
+                dataType: 'json',
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (item) {
+                            return {id: item.id, text: item.title};
+                        })
+                    };
+                }
+            },
+            minimumInputLength: 1
+        });
+    });
+</script>
+
+
+{%endblock scripts %}
+</div>
